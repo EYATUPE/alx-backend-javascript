@@ -1,25 +1,20 @@
-const readline = require('readline');
+// The initial message to the standard output
+process.stdout.write('Welcome to Holberton School, what is your name?\n');
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
+// Setting up an event listener for the 'readable' event on standard input
+process.stdin.on('readable', () => {
+  // Reading the available data from standard input
+  const data = process.stdin.read();
+
+  // Setting the condition If there's data available
+  if (data) {
+    // Writing the formatted message to the standard output
+    process.stdout.write(`Your name is: ${data}`);
+  }
 });
 
-async function getUserInput() {
-  return new Promise((resolve) => {
-    rl.question('Welcome to Holberton School, what is your name?\n', (answer) => {
-      resolve(answer);
-    });
-  });
-}
-
-async function main() {
-  const name = await getUserInput();
-  rl.write(`Your name is: ${name}\n`);
-  rl.write('This important software is now closing\n');
-  rl.close();
-}
-
-main().catch((error) => {
-  console.error('An error occurred:', error);
+// Setting up an event listener for the 'end' event on the standard input
+process.stdin.on('end', () => {
+  // Writing the closing message to the standard output
+  process.stdout.write('This important software is now closing\n');
 });
